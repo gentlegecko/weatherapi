@@ -1,11 +1,15 @@
 package com.vanguard.weatherapi.service;
 
 import com.vanguard.weatherapi.dto.WeatherDto;
+import com.vanguard.weatherapi.exception.CityNotFoundException;
+import com.vanguard.weatherapi.exception.ExternalApiException;
 import com.vanguard.weatherapi.model.Weather;
 import com.vanguard.weatherapi.repository.WeatherApiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
@@ -34,7 +38,17 @@ public class WeatherApiService {
 
         String url = String.format("%s?q=%s,%s&appid=%s", WEATHER_MAP_API_URL, city, country, apiKey);
 
-        WeatherDto weatherResponse = restTemplate.getForObject(url, WeatherDto.class);
+        WeatherDto weatherResponse;
+
+        try {
+            weatherResponse = restTemplate.getForObject(url, WeatherDto.class);
+        } catch (HttpClientErrorException err) {
+            if (err.getStatusCode() == HttpStatus.NOT_FOUND) {
+                throw new CityNotFoundException("City not found: " + city + ", " + country);
+            } else {
+                throw new ExternalApiException("Error fetching weather data: " + err.getMessage());
+            }
+        }
 
         Weather weatherData = new Weather();
         weatherData.setCity(city);

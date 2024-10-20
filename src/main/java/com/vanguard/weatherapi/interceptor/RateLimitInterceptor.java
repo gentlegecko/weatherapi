@@ -1,5 +1,6 @@
 package com.vanguard.weatherapi.interceptor;
 
+import com.vanguard.weatherapi.exception.InvalidApiKeyException;
 import com.vanguard.weatherapi.exception.TooManyRequestsException;
 import com.vanguard.weatherapi.service.RateLimiterService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ public class RateLimitInterceptor implements HandlerInterceptor {
         String apiKey = request.getHeader(API_KEY_HEADER);
 
         if (!Arrays.asList(apiKeys).contains(apiKey)) {
-            throw new IllegalArgumentException("Invalid API Key");
+            throw new InvalidApiKeyException("Invalid API Key");
         }
 
         Bucket bucket = rateLimiterService.resolveBucket(apiKey);
