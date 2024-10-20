@@ -22,7 +22,7 @@ public class WeatherApiService {
 
     public WeatherApiService(WeatherApiRepository weatherApiRepository) {
         this.weatherApiRepository = weatherApiRepository;
-        this.restTemplate = new RestTemplate();;
+        this.restTemplate = new RestTemplate();
     }
 
     public Optional<Weather> getWeather(String city, String country, String apiKey) {
