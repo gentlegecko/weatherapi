@@ -1,4 +1,4 @@
-package com.vanguard.vanguard_challenge_ethan;
+package com.vanguard.weatherapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
