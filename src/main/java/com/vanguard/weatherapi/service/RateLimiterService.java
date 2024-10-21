@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RateLimiterService {
 
     @Value("${openweathermap.api.request_limit}")
-    private int REQUEST_LIMIT;
+    private int REQUEST_LIMIT = 5;
 
     private final Map<String, Bucket> cache = new ConcurrentHashMap<>();
 
