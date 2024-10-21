@@ -1,5 +1,7 @@
 package com.vanguard.weatherapi.service;
 
+import com.vanguard.weatherapi.config.WebConfig;
+import com.vanguard.weatherapi.interceptor.RateLimitInterceptor;
 import com.vanguard.weatherapi.model.Weather;
 import com.vanguard.weatherapi.repository.WeatherApiRepository;
 import org.junit.jupiter.api.Test;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,6 +25,15 @@ public class WeatherApiServiceTest {
 
     @MockBean
     private WeatherApiRepository weatherApiRepository;
+
+    @MockBean
+    private RateLimitInterceptor rateLimitInterceptor;
+
+    @MockBean
+    private WebConfig webConfig;
+
+    @MockBean
+    private RestTemplate restTemplate;
 
     @Value("${openweathermap.api.keys}")
     private String[] apiKeys;
