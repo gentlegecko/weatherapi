@@ -17,7 +17,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidApiKeyException.class)
-    public ResponseEntity<?> InvalidApiKeyException(IllegalArgumentException ex, WebRequest request) {
+    public ResponseEntity<?> handleInvalidApiKeyException(InvalidApiKeyException ex, WebRequest request) {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", System.currentTimeMillis());
         body.put("status", HttpStatus.UNAUTHORIZED.value());
