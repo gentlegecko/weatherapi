@@ -29,10 +29,11 @@ public class WeatherApiService {
         this.restTemplate = new RestTemplate();;
     }
 
-    public Optional<Weather> getWeather(String city, String country, String apiKey) {
+    public Weather getWeather(String city, String country, String apiKey) {
 
-        Optional<Weather> cachedData = Optional.ofNullable(weatherApiRepository.findByCityAndCountry(city, country));
-        if (cachedData.isPresent()) {
+        Weather cachedData = weatherApiRepository.findByCityAndCountry(city, country);
+        
+        if (cachedData != null) {
             return cachedData;
         }
 
@@ -56,6 +57,6 @@ public class WeatherApiService {
         weatherData.setDescription(weatherResponse.getWeather().get(0).getDescription());
 
         weatherApiRepository.save(weatherData);
-        return Optional.of(weatherData);
+        return weatherData;
     }
 }
